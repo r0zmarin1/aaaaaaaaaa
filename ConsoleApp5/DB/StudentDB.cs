@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text.Json;
 
 class StudentDB
 {
@@ -7,7 +10,13 @@ class StudentDB
     public StudentDB()
     {
         //load file (json)
-        students = new Dictionary<string, Student>();
+        if (!File.Exists("student.json"))
+            students = new Dictionary<string, Student>();
+        else
+            using (FileStream fs = new FileStream("student.json", FileMode.OpenOrCreate))
+            {
+                students = JsonSerializer.Deserialize<Dictionary<string, Student>>(fs);
+            }
     }
 
     public List<Student> Search(string text)
@@ -33,7 +42,7 @@ class StudentDB
 
     public Student Create()
     {
-        Student newStudent = new Student {  UID = Guid.NewGuid().ToString()};
+        Student newStudent = new Student { UID = Guid.NewGuid().ToString() };
         students.Add(newStudent.UID, newStudent);
         return newStudent;
     }
@@ -50,5 +59,9 @@ class StudentDB
     void Save()
     {
         // save file (json)
+        using (FileStream fs = new FileStream("student.json", FileMode.OpenOrCreate))
+        {
+            JsonSerializer.Serialize(fs, students);
+        }
     }
 }

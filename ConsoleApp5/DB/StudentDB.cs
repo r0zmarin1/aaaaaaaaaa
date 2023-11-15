@@ -55,6 +55,14 @@ class StudentDB
         Save();
         return true;
     }
+    public Student GetStudentByUID(string UID)
+    {
+        if (!students.ContainsKey(UID))
+            return null;
+        else
+            return students[UID];
+    }
+
 
     void Save()
     {

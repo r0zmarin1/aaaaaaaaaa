@@ -8,6 +8,7 @@ class Program
         CommandManager commandManager = new CommandManager();
         StudentDB studentDB = new StudentDB();
         GroupDB groupDB = new GroupDB();
+        StudentGroupDB studentGroupDB = new StudentGroupDB(studentDB, groupDB);
         commandManager.RegisterCommand("Create s", new CommandCreateStudent(studentDB));
         commandManager.RegisterCommand("Search s", new CommandSearchStudent(studentDB));
         commandManager.RegisterCommand("Delete s", new CommandDeleteStudent(studentDB));
@@ -16,6 +17,9 @@ class Program
         commandManager.RegisterCommand("Search g", new CommandSearchGroup(groupDB));
         commandManager.RegisterCommand("Delete g", new CommandDeleteGroup(groupDB));
         commandManager.RegisterCommand("Edit g", new CommandEditGroup(groupDB));
+        commandManager.RegisterCommand("Add", new CommandAddStudentInGroup(studentGroupDB));
+        commandManager.RegisterCommand("Search s in g", new CommandSearchStudentInGroup(studentGroupDB));
+        commandManager.RegisterCommand("Search g in s", new CommandSearchGroupInStudent(studentGroupDB));
         // добавить команды:
         // Search - поиск студентов по имени/фамилии, должен выводиться UID
         // Delete - удаление выбранного студента (по UID или порядковому номеру в выведенном списке)

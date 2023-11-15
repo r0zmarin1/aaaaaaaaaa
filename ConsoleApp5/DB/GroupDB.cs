@@ -60,6 +60,14 @@ namespace ConsoleApp5.DB
             return true;
         }
 
+        public Group GetGroupByUID(string UID)
+        {
+            if (!groups.ContainsKey(UID))
+                return null;
+            else 
+                return groups[UID];
+        }
+
         void Save()
         {
             // save file (json)
